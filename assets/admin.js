@@ -1,5 +1,18 @@
 let myToken = window.sessionStorage.getItem("token");
 
+class CheckCompleteClass {
+  constructor(data = 0) {
+    this.checkCompleteProperty = 0;
+    }
+
+    increment() {
+      this.checkCompleteProperty++;
+    }
+  }
+
+let checkcomplete = new CheckCompleteClass(0);
+
+
 if (myToken) {
   const filter = document.querySelector(".filter");
   filter.style.display = "none";
@@ -196,6 +209,12 @@ async function submitNewWorksInterface() {
     chooseImgWrap.appendChild(displayImg);
   });
 
+  addPicture.addEventListener("input", (event) => {
+    checkcomplete.increment();
+    formIsFilled()
+  })
+
+
   //Form Title & Category
   const titleLabel = document.createElement("label");
   titleLabel.setAttribute("for", "title");
@@ -210,6 +229,11 @@ async function submitNewWorksInterface() {
   form.appendChild(titleLabel);
   form.appendChild(titleInput);
 
+  titleInput.addEventListener("input", (event) => {
+    checkcomplete.increment();
+    formIsFilled()
+  }, { once: true });
+
   await categoryList();
 
   const line = document.createElement("div");
@@ -220,6 +244,9 @@ async function submitNewWorksInterface() {
   buttonSendNewWork.classList.add("sendWork-btn");
   buttonSendNewWork.innerText = "Valider";
   form.appendChild(buttonSendNewWork);
+
+
+
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -286,16 +313,12 @@ async function categoryList() {
   categoryInput.setAttribute("name", "category");
   categoryInput.setAttribute("id", "category");
 
-  const validCheck = 0;
-  categoryInput.onchange = function (validCheck) {
-    validCheck = +1;
-
-    return validCheck;
-  };
-  console.log(validCheck);
-  if (validCheck === 1) {
-    console.log("hello");
+  categoryInput.onchange = function () {
+    checkcomplete.increment();
+    formIsFilled()
   }
+
+ 
 
   //Option par defaut
   const option = document.createElement("option");
@@ -493,3 +516,10 @@ window.addEventListener("keydown", function (e) {
   if (e.key === "G" || e.key === "g") {
   }
 });
+
+function formIsFilled() {
+  if (checkcomplete.checkCompleteProperty === 3) {
+    const sendWorkButton = document.querySelector(".sendWork-btn");
+    sendWorkButton.classList.add("sendWork-btn-full");
+  }
+}
