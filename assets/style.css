@@ -129,8 +129,8 @@ table {
 }
 /** end reset css**/
 body {
-  max-width: 1140px;
-  margin: auto;
+  display: grid;
+  justify-content: center;
   font-family: "Work Sans";
   font-size: 14px;
 }
@@ -141,6 +141,12 @@ header {
 }
 section {
   margin: 50px 0;
+}
+
+header,
+main,
+footer {
+  max-width: 1140px;
 }
 
 h1 {
@@ -168,6 +174,7 @@ h2 {
 .centersection {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .centersection h2 {
@@ -175,11 +182,14 @@ h2 {
   justify-content: center;
 }
 
+.centersection p {
+  color: transparent;
+}
+
 .loginForm {
   display: flex;
   flex-direction: column;
-  margin-left: 35%;
-  margin-right: 35%;
+  justify-content: center;
 }
 
 .loginForm a {
@@ -187,24 +197,42 @@ h2 {
   justify-content: center;
 }
 
+.filter {
+  display: flex;
+  justify-content: center;
+}
+
 .btn-noFilter {
   margin-left: 13%;
   padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   border-width: 1px;
   border-color: #1d6154;
   color: #1d6154;
   border-radius: 20px;
   background-color: inherit;
   margin-bottom: 30px;
+  font-weight: 700;
+}
+
+header p {
+  color: transparent;
 }
 
 .loginForm input {
+  margin-left: 33%;
+  width: 33%;
   height: 50px;
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   margin-top: 10px;
   margin-bottom: 15px;
+}
+
+.loginForm label {
+  margin-left: 33%;
 }
 
 #connect {
@@ -290,14 +318,19 @@ li:hover {
   background-color: grey;
 }
 
-.headerEditText {
+.editModeHeader {
   display: flex;
   background: black;
   height: 50px;
   color: white;
   align-items: center;
   justify-content: center;
-  margin-left: -50%;
+  position: absolute;
+  width: 100%;
+}
+
+.editModeHeader i {
+  padding-right: 10px;
 }
 
 .gallery img {
@@ -318,18 +351,38 @@ li:hover {
   flex-wrap: wrap;
 }
 
+.failurePopUp {
+  position: fixed;
+  color: white;
+  background-color: rgb(150, 32, 32);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 50%;
+  border-radius: 5px;
+  height: 40px;
+  animation-name: failurePopingUp;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+  z-index: 20;
+}
+
 .btn-filter {
-  margin-left: 13%;
+  margin-left: 20px;
   padding: 10px;
-  border-width: 1px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-width: 1.5px;
   border-color: #1d6154;
   color: #1d6154;
   border-radius: 20px;
   background-color: inherit;
   margin-bottom: 30px;
+  font-weight: 700;
+  font-family: "Syne";
 }
 
-.btn-filter-selected {
+.--selected {
   background-color: #1d6154;
   color: white;
 }

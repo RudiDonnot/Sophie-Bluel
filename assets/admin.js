@@ -15,10 +15,9 @@ if (myToken) {
   }
   /*  banderole mode editeur  */
   {
-    const body = document.querySelector("body");
-    const editModeHeader = document.createElement("div");
+    document.querySelector("header").style.marginTop = "100px";
+    const editModeHeader = document.querySelector("#modeedition");
     editModeHeader.classList.add("editModeHeader");
-    body.insertBefore(editModeHeader, body.firstChild);
 
     const headerEditIcon = document.createElement("i");
     headerEditIcon.classList.add("fa-regular", "fa-pen-to-square");
@@ -50,9 +49,7 @@ if (myToken) {
   const loggout = document.querySelector(".login");
   loggout.innerText = "login";
   loggout.addEventListener("click", () => {
-    open(
-      "file:///C:/Users/Ryzen/Downloads/projet%206/Portfolio-architecte-sophie-bluel/FrontEnd/pagedeconnexion.html"
-    );
+    window.location.replace("./pagedeconnexion.html");
   });
 }
 
@@ -115,7 +112,6 @@ async function editWorksInterface() {
     workElement.appendChild(deleteWorkButton);
 
     //EventListener sur les boutons delete qui permet de supprimer les projets de l'api
-
     deleteWorkButton.addEventListener("click", async (e) => {
       e.preventDefault();
       await fetch(`http://localhost:5678/api/works/${works[i].id}`, {
@@ -289,6 +285,17 @@ async function categoryList() {
   const categoryInput = document.createElement("select");
   categoryInput.setAttribute("name", "category");
   categoryInput.setAttribute("id", "category");
+
+  const validCheck = 0;
+  categoryInput.onchange = function (validCheck) {
+    validCheck = +1;
+
+    return validCheck;
+  };
+  console.log(validCheck);
+  if (validCheck === 1) {
+    console.log("hello");
+  }
 
   //Option par defaut
   const option = document.createElement("option");
@@ -475,14 +482,12 @@ function line() {
 }
 
 window.addEventListener("keydown", function (e) {
-  console.log();
   if (e.key === "Escape" || e.key === "Esc") {
     closeModal(e);
   }
 });
 
 window.addEventListener("keydown", function (e) {
-  console.log();
   if (e.key === "G" || e.key === "g") {
   }
 });

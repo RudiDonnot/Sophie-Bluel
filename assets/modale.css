@@ -214,14 +214,18 @@ h3 {
   width: 240px;
   border: none;
   height: 36px;
-  background-color: #1d6154;
+  background-color: grey;
   color: white;
   border-radius: 60px;
   cursor: pointer;
   transition: 0.2s;
 }
 
-.sendWork-btn:hover {
+.sendWork-btn-full {
+  background-color: #1d6154;
+}
+
+.sendWork-btn-full:hover {
   transition: 0.2s;
   background-color: #248d7a;
 }

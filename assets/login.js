@@ -1,5 +1,24 @@
 const loginForm = document.querySelector(".loginForm");
 
+function failurePopUp(errorInnerText, width) {
+  const popUp = document.createElement("div");
+  popUp.classList.add("failurePopUp");
+  this.document.body.appendChild(popUp);
+  popUp.style.fontFamily = "Syne";
+  popUp.style.width = width + "px";
+  popUp.style.minWidth = width + "px";
+  popUp.style.marginLeft = -width / 2 + "px";
+  popUp.innerText = errorInnerText;
+
+  popUp.addEventListener("animationend", () => {
+    popUp.remove();
+
+    popUp.addEventListener("animationend", () => {
+      popUp.remove();
+    });
+  });
+}
+
 loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -16,10 +35,9 @@ loginForm.addEventListener("submit", (event) => {
     .then((response) => {
       if (response.userId && response.token) {
         window.sessionStorage.setItem("token", response.token);
-        alert("connecté");
-        window.location = "./index.html";
+        window.location.replace("./index.html");
       } else {
-        alert("identifiants incorrects");
+        failurePopUp("Erreur dans l’identifiant ou le mot de passe", "400");
       }
     });
 });
