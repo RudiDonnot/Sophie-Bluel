@@ -407,6 +407,8 @@ async function refreshEditGallery() {
   }
 }
 
+// si je commente ici
+
 const openModal = function () {
   const target = document.getElementById("modal1");
   //Cette ligne va permettre à "display: none" de devenir null, ce qui aura...
