@@ -4,7 +4,7 @@ async function genererProjet() {
   const categoryFetch = await fetch("http://localhost:5678/api/categories");
   const category = await categoryFetch.json();
   createGallery(works);
-  noFilterButton(works);
+  createTousButton(works);
   createFilterButton(works, category);
 }
 
@@ -30,20 +30,20 @@ function createGallery(works) {
 
 function createFilterButton(works, category) {
   for (let i = 0; i < category.length; i++) {
-    const sectionFilter = document.querySelector(".filter");
+    const filterSection = document.querySelector(".filter");
     const button = document.createElement("button");
 
-    button.classList.add("btn-filter");
+    button.classList.add("filterbutton");
     button.innerText = category[i].name;
-    sectionFilter.appendChild(button);
+    filterSection.appendChild(button);
 
     button.addEventListener("click", () => {
       document.querySelector(".gallery").innerHTML = "";
-      const allFilters = sectionFilter.querySelectorAll(".btn-filter");
+      const allFilters = filterSection.querySelectorAll(".filterbutton");
       allFilters.forEach((button) => {
-        button.classList.remove("--selected");
+        button.classList.remove("filterselected");
       });
-      button.classList.add("--selected");
+      button.classList.add("filterselected");
       const worksFiltered = works.filter(function (worksFiltering) {
         if (worksFiltering.category.name == category[i].name)
           return worksFiltering;
@@ -54,22 +54,22 @@ function createFilterButton(works, category) {
   }
 }
 
-function noFilterButton(works) {
-  const sectionFilter = document.querySelector(".filter");
-  const noFilterButton = document.createElement("button");
+function createTousButton(works) {
+  const filterSection = document.querySelector(".filter");
+  const tousButton = document.createElement("button");
 
-  noFilterButton.classList.add("btn-filter");
-  noFilterButton.classList.add("--selected");
-  noFilterButton.innerText = "Tous";
-  sectionFilter.appendChild(noFilterButton);
+  tousButton.classList.add("filterbutton");
+  tousButton.classList.add("filterselected");
+  tousButton.innerText = "Tous";
+  filterSection.appendChild(tousButton);
 
-  noFilterButton.addEventListener("click", (event) => {
+  tousButton.addEventListener("click", (event) => {
     document.querySelector(".gallery").innerHTML = "";
-    const allFilters = sectionFilter.querySelectorAll(".btn-filter");
+    const allFilters = filterSection.querySelectorAll(".filterbutton");
     allFilters.forEach((button) => {
-      button.classList.remove("--selected");
+      button.classList.remove("filterselected");
     });
-    event.target.classList.add("--selected");
+    event.target.classList.add("filterselected");
     createGallery(works);
   });
 }

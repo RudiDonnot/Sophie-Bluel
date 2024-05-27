@@ -202,7 +202,7 @@ h2 {
   justify-content: center;
 }
 
-.btn-noFilter {
+.tousbutton {
   margin-left: 13%;
   padding: 10px;
   padding-left: 20px;
@@ -233,10 +233,6 @@ header p {
 
 .loginForm label {
   margin-left: 33%;
-}
-
-#connect {
-  height: 40px;
 }
 
 nav ul {
@@ -367,7 +363,7 @@ li:hover {
   z-index: 20;
 }
 
-.btn-filter {
+.filterbutton {
   margin-left: 20px;
   padding: 10px;
   padding-left: 20px;
@@ -382,7 +378,7 @@ li:hover {
   font-family: "Syne";
 }
 
-.--selected {
+.filterselected {
   background-color: #1d6154;
   color: white;
 }

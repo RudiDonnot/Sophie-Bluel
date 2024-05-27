@@ -4,7 +4,6 @@ if (myToken) {
   const filter = document.querySelector(".filter");
   filter.style.display = "none";
 
-  /* bouton log out*/
   {
     const loggout = document.querySelector(".login");
     loggout.innerText = "logout";
@@ -13,7 +12,6 @@ if (myToken) {
       location.reload();
     });
   }
-  /*  banderole mode editeur  */
   {
     document.querySelector("header").style.marginTop = "100px";
     const editModeHeader = document.querySelector("#modeedition");
@@ -28,7 +26,6 @@ if (myToken) {
     headerEditModeText.classList.add("headerEditText");
     editModeHeader.appendChild(headerEditModeText);
   }
-  /*  bouton modifier  */
   {
     const worksTitleSection = document.querySelector("#portfolio .title");
     const modalbutton = document.createElement("a");
@@ -54,11 +51,6 @@ if (myToken) {
 }
 
 function modalOverAll() {
-  //empêche la multiplication des boites modales
-  if (document.querySelector(".modal-frame") != null)
-    return console.log("Boite Modale ouverte !");
-
-  // pour créer le tag html
   const portfolioSection = document.querySelector("#portfolio");
   const modalOverAll = document.createElement("aside");
   modalOverAll.classList.add("modal");
@@ -80,19 +72,18 @@ function modalFrame() {
   modalOverAll.appendChild(modalFrame);
 }
 
-/*            Contenu Fenetre modale : Modifier Galerie          */
 async function editWorksInterface() {
   const modalFrame = document.querySelector(".modal-frame");
   modalExitButton();
   modalTitle("Galerie Photo");
-  //Creation de la galerie
+
   const galery = document.createElement("div");
   galery.classList.add("modal-galery");
   modalFrame.appendChild(galery);
-  //Récuperation des projets sur l'api
+
   const fetchWork = await fetch("http://localhost:5678/api/works");
   const works = await fetchWork.json();
-  //Charge les projets puis les affiches par elements présent dans l'api
+
   for (let i = 0; i < works.length; i++) {
     const modalWorks = document.querySelector(".modal-galery");
     const workElement = document.createElement("div");
@@ -103,7 +94,6 @@ async function editWorksInterface() {
     modalWorks.appendChild(workElement);
     workElement.appendChild(workImg);
 
-    //Créer un bouton delete pour chaque projet chargé
     const deleteWorkButton = document.createElement("div");
     deleteWorkButton.classList.add("btn-delete");
     const deleteWorkIcon = document.createElement("i");
@@ -111,7 +101,6 @@ async function editWorksInterface() {
     deleteWorkButton.appendChild(deleteWorkIcon);
     workElement.appendChild(deleteWorkButton);
 
-    //EventListener sur les boutons delete qui permet de supprimer les projets de l'api
     deleteWorkButton.addEventListener("click", async (e) => {
       e.preventDefault();
       await fetch(`http://localhost:5678/api/works/${works[i].id}`, {
@@ -127,13 +116,12 @@ async function editWorksInterface() {
   }
 
   line();
-  // Le bouton "Ajout de photo"
+
   const addButton = document.createElement("button");
   addButton.classList.add("addButton");
   addButton.innerText = "Ajouter une photo";
   modalFrame.appendChild(addButton);
 
-  //Son eventListener qui va permettre de changer de page
   addButton.addEventListener("click", () => {
     modalFrame.innerHTML = "";
     submitNewWorksInterface();
@@ -148,31 +136,28 @@ async function submitNewWorksInterface() {
   returnArrow();
   modalTitle("Ajout Photo");
 
-  // Création contenu HTML/CSS de la modal ajout photo
   const form = document.createElement("form");
   form.classList.add("addpicture-wrap");
   modalFrame.appendChild(form);
 
-  //Parti zone Ajouter photo
   const chooseImgWrap = document.createElement("div");
   chooseImgWrap.classList.add("chooseImg-wrap");
   form.appendChild(chooseImgWrap);
-  //Logo
+
   const chooseImgLogo = document.createElement("i");
   chooseImgLogo.classList.add("fa-regular", "fa-image");
-  //Le bouton "Ajouter Photo"
-  //Label
+
   const labelAddPicture = document.createElement("label");
   labelAddPicture.setAttribute("for", "addPicture-btn");
   labelAddPicture.classList.add("addPicture-label");
   labelAddPicture.innerHTML = "+ Ajouter photo";
-  //Input
+
   const addPicture = document.createElement("input");
   addPicture.setAttribute("name", "addPicture");
   addPicture.setAttribute("type", "file");
   addPicture.setAttribute("id", "addPicture-btn");
   addPicture.setAttribute("accept", ".png, .jpeg, .jpg");
-  //subtitle-info
+
   const infoAddPicture = document.createElement("p");
   infoAddPicture.classList.add("infoAddPicture");
   infoAddPicture.innerText = "jpg, png : 4mo max";
@@ -182,7 +167,6 @@ async function submitNewWorksInterface() {
   chooseImgWrap.appendChild(addPicture);
   chooseImgWrap.appendChild(infoAddPicture);
 
-  //EventListener that display a preview of selected picture
   addPicture.addEventListener("change", () => {
     chooseImgLogo.style.display = "none";
     labelAddPicture.style.display = "none";
@@ -196,12 +180,11 @@ async function submitNewWorksInterface() {
     chooseImgWrap.appendChild(displayImg);
   });
 
-  //Form Title & Category
   const titleLabel = document.createElement("label");
   titleLabel.setAttribute("for", "title");
   titleLabel.classList.add("label-form");
   titleLabel.innerText = "Titre";
-  //TitleInput
+
   const titleInput = document.createElement("input");
   titleInput.setAttribute("type", "text");
   titleInput.setAttribute("name", "title");
@@ -220,6 +203,28 @@ async function submitNewWorksInterface() {
   buttonSendNewWork.classList.add("sendWork-btn");
   buttonSendNewWork.innerText = "Valider";
   form.appendChild(buttonSendNewWork);
+
+  const elemArray = [];
+  elemArray[0] = document.querySelector("#addPicture-btn");
+  elemArray[1] = document.querySelector("#title");
+  elemArray[2] = document.querySelector("#category");
+
+  const Testclick = document.querySelector("#title");
+  Testclick.addEventListener("change", (event) =>
+    console.log(elemArray[0].value, elemArray[1].value, elemArray[2].value)
+  );
+
+  const areFieldsFilled = (elemArray) => {
+    let valueExist = true;
+    for (const elem of elemArray) {
+      if (!elem.value) {
+        return false;
+      }
+    }
+    return valueExist;
+  };
+
+  if (areFieldsFilled(elemArray)) console.log("hello");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -240,35 +245,33 @@ async function submitNewWorksInterface() {
         Authorization: `Bearer ${window.sessionStorage.getItem("token")}`,
       },
       body: formData,
-    })
-      //Affiche une alerte si la reponse != true
-      .then((response) => {
-        if (!response.ok) {
-          if (response.status == 400) {
-            failurePopUp("Veuillez vérifier le titre et la categorie.", "400");
-          }
-          if (response.status == 500) {
-            failurePopUp("Veuillez choisir une image.", "300");
-          }
-        } else {
-          document.getElementById("addPicture-btn").value = "";
-          document.getElementById("title").value = "";
-          document.getElementById("category").value = 1;
-          refreshGallery();
-          selectedImg = document.querySelector(".displayedImg");
-          selectedImg.remove();
-
-          const labelAddPicture = document.querySelector(".addPicture-label");
-          const chooseImgLogo = document.querySelector(".fa-image");
-          const infoAddPicture = document.querySelector(".infoAddPicture");
-
-          chooseImgLogo.style.display = "block";
-          labelAddPicture.style.display = "flex";
-          infoAddPicture.style.display = "block";
-
-          successPopUp();
+    }).then((response) => {
+      if (!response.ok) {
+        if (response.status == 400) {
+          failurePopUp("Veuillez vérifier le titre et la categorie.", "400");
         }
-      });
+        if (response.status == 500) {
+          failurePopUp("Veuillez choisir une image.", "300");
+        }
+      } else {
+        document.getElementById("addPicture-btn").value = "";
+        document.getElementById("title").value = "";
+        document.getElementById("category").value = 1;
+        refreshGallery();
+        selectedImg = document.querySelector(".displayedImg");
+        selectedImg.remove();
+
+        const labelAddPicture = document.querySelector(".addPicture-label");
+        const chooseImgLogo = document.querySelector(".fa-image");
+        const infoAddPicture = document.querySelector(".infoAddPicture");
+
+        chooseImgLogo.style.display = "block";
+        labelAddPicture.style.display = "flex";
+        infoAddPicture.style.display = "block";
+
+        successPopUp();
+      }
+    });
   });
 }
 
@@ -286,18 +289,6 @@ async function categoryList() {
   categoryInput.setAttribute("name", "category");
   categoryInput.setAttribute("id", "category");
 
-  const validCheck = 0;
-  categoryInput.onchange = function (validCheck) {
-    validCheck = +1;
-
-    return validCheck;
-  };
-  console.log(validCheck);
-  if (validCheck === 1) {
-    console.log("hello");
-  }
-
-  //Option par defaut
   const option = document.createElement("option");
   option.setAttribute("value", `none`);
   option.setAttribute("selected", "");
@@ -317,7 +308,6 @@ async function categoryList() {
   form.appendChild(categoryInput);
 }
 
-//Exit button
 function modalExitButton() {
   const modalFrame = document.querySelector(".modal-frame");
   const modalExitButton = document.createElement("div");
@@ -327,7 +317,6 @@ function modalExitButton() {
   modalExitButton.addEventListener("click", closeModal);
 }
 
-//Function that create the "returnArrow" button
 function returnArrow() {
   const modalReturnArrow = document.createElement("div");
   modalReturnArrow.classList.add("js-modal-return");
@@ -352,15 +341,15 @@ async function refreshGallery() {
   for (let i = 0; i < works.length; i++) {
     const selectedWorks = works[i];
     const sectionGallery = document.querySelector(".gallery");
-    // Creating the HTML tag
+
     const worksElement = document.createElement("figure");
     const imageElement = document.createElement("img");
     const figcaptionElement = document.createElement("figcaption");
-    // Setting img src and alt text and the caption text
+
     imageElement.src = selectedWorks.imageUrl;
     imageElement.alt = selectedWorks.title;
     figcaptionElement.innerText = selectedWorks.title;
-    // Appending elements to the DOM
+
     sectionGallery.appendChild(worksElement);
     worksElement.appendChild(imageElement);
     worksElement.appendChild(figcaptionElement);
@@ -383,7 +372,6 @@ async function refreshEditGallery() {
     modalWorks.appendChild(workElement);
     workElement.appendChild(workImg);
 
-    //Créer un bouton delete pour chaque projet chargé
     const deleteWorkButton = document.createElement("div");
     deleteWorkButton.classList.add("btn-delete");
     const deleteWorkIcon = document.createElement("i");
@@ -391,7 +379,6 @@ async function refreshEditGallery() {
     deleteWorkButton.appendChild(deleteWorkIcon);
     workElement.appendChild(deleteWorkButton);
 
-    //EventListener sur les boutons delete qui permet de supprimer les projets de l'api
     deleteWorkButton.addEventListener("click", async (e) => {
       e.preventDefault();
       await fetch(`http://localhost:5678/api/works/${works[i].id}`, {
@@ -407,23 +394,15 @@ async function refreshEditGallery() {
   }
 }
 
-// si je commente ici
-
 const openModal = function () {
   const target = document.getElementById("modal1");
-  //Cette ligne va permettre à "display: none" de devenir null, ce qui aura...
-  //...pour effet de laisser le CSS prendre le relais sur l'affichage de "modal1"...
-  //... qui donc aura comme valeur "flex"...
+
   target.style.display = null;
   target.removeAttribute("aria-hidden");
   target.setAttribute("aria-modal", "true");
 
-  //Cette partie la, permet de définir les actions qui vont fermer la fenetre modale...
-  //...la première ligne permet de fermer en cliquant dans la zone extérieur...
-  //...de la fenetre, c'est à dire en cliquand sur l'élement "const target"...
   target.addEventListener("click", closeModal);
-  //...la deuxième ligne permet de fermer en cliquant sur l'élement qui a comme classe...
-  //..."js-modal", c'est à dire le bouton "X" dans la fenetre...
+
   target.querySelector(".js-modal-close").addEventListener("click", closeModal);
   target
     .querySelector(".js-modal-stop")
@@ -467,7 +446,7 @@ function failurePopUp(errorInnerText, width) {
     });
   });
 }
-//Function that create the title of the window (titleSTring = Title InnerText)
+
 function modalTitle(titleString) {
   const modalFrame = document.querySelector(".modal-frame");
   const modalTitle = document.createElement("h3");
@@ -475,7 +454,6 @@ function modalTitle(titleString) {
   modalFrame.appendChild(modalTitle);
 }
 
-//Function that draw the line in the modal window to separate elements
 function line() {
   const modalFrame = document.querySelector(".modal-frame");
   const line = document.createElement("div");
@@ -486,10 +464,5 @@ function line() {
 window.addEventListener("keydown", function (e) {
   if (e.key === "Escape" || e.key === "Esc") {
     closeModal(e);
-  }
-});
-
-window.addEventListener("keydown", function (e) {
-  if (e.key === "G" || e.key === "g") {
   }
 });
