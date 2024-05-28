@@ -204,28 +204,6 @@ async function submitNewWorksInterface() {
   buttonSendNewWork.innerText = "Valider";
   form.appendChild(buttonSendNewWork);
 
-  const elemArray = [];
-  elemArray[0] = document.querySelector("#addPicture-btn");
-  elemArray[1] = document.querySelector("#title");
-  elemArray[2] = document.querySelector("#category");
-
-  const Testclick = document.querySelector("#title");
-  Testclick.addEventListener("change", (event) =>
-    console.log(elemArray[0].value, elemArray[1].value, elemArray[2].value)
-  );
-
-  const areFieldsFilled = (elemArray) => {
-    let valueExist = true;
-    for (const elem of elemArray) {
-      if (!elem.value) {
-        return false;
-      }
-    }
-    return valueExist;
-  };
-
-  if (areFieldsFilled(elemArray)) console.log("hello");
-
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -289,8 +267,32 @@ async function categoryList() {
   categoryInput.setAttribute("name", "category");
   categoryInput.setAttribute("id", "category");
 
+  const elemArray = [];
+  elemArray[0] = document.querySelector("#addPicture-btn");
+  elemArray[1] = document.querySelector("#title");
+  elemArray[2] = categoryInput;
+
+  const areFieldsFilled = () => {
+    let valeur = 0;
+    for (let i = 0; i < 3; i++) {
+      if (elemArray[i].value) {
+        valeur++;
+      }
+      elemArray[i].addEventListener("change", function () {
+        if (areFieldsFilled(elemArray) === 3) {
+          const sendButton = document.querySelector(".sendWork-btn");
+          sendButton.classList.add("sendWork-btn-full");
+        }
+      });
+      console.log(valeur);
+    }
+    return valeur;
+  };
+
+  areFieldsFilled(elemArray);
+
   const option = document.createElement("option");
-  option.setAttribute("value", `none`);
+  option.setAttribute("value", ``);
   option.setAttribute("selected", "");
   option.setAttribute("disabled", "");
   option.setAttribute("hidden", "");
